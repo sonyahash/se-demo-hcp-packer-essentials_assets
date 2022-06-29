@@ -38,15 +38,15 @@ build {
   ## HashiCups
   # Add startup script that will run hashicups on instance boot
   provisioner "file" {
-    source      = "setup-deps-hashicups.sh"
-    destination = "/tmp/setup-deps-hashicups.sh"
+    source      = "setup-deps-pathtopacker.sh"
+    destination = "/tmp/setup-deps-pathtopacker.sh"
   }
 
   # Move temp files to actual destination
   # Must use this method because their destinations are protected 
   provisioner "shell" {
     inline = [
-      "sudo cp /tmp/setup-deps-hashicups.sh /var/lib/cloud/scripts/per-boot/setup-deps-hashicups.sh",
+      "sudo cp /tmp/setup-deps-pathtopacker.sh /var/lib/cloud/scripts/per-boot/setup-deps-pathtopacker.sh",
     ]
   }
 }
