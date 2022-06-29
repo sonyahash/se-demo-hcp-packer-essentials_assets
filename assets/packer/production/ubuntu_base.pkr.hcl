@@ -38,31 +38,13 @@ build {
       "build-source" = basename(path.cwd)
     }
   }
-
-  sources = [
-    "source.amazon-ebs.ubuntu-server-east"
-  ]
-
-  ## HashiCups
-  # Add startup script that will run hashicups on instance boot
-  provisioner "file" {
-    source      = "setup-deps-hashicups.sh"
-    destination = "/tmp/setup-deps-hashicups.sh"
-  }
-
-  # Move temp files to actual destination
-  # Must use this method because their destinations are protected 
+  sources = ["source.amazon-ebs.ubuntu-server-east"]
   provisioner "shell" {
     inline = [
-      "sudo cp /tmp/setup-deps-hashicups.sh /var/lib/cloud/scripts/per-boot/setup-deps-hashicups.sh",
+      "sudo apt install nginx -y",
+      "sudo systemctl enable nginx",
+      "sudo systemctl start nginx"
+
     ]
   }
-
-  # provisioner "shell" {
-  #   inline = [
-  #     "echo '***** Running CIS LTS Benchmark tests'",
-  #     "echo '1.1.1.3 Ensure mounting of jffs2 filesystems is disabled'",
-  #     "modprobe -n -v jffs2 | grep -E '(jffs2|install)'"
-  #   ]
-  # }
 }
