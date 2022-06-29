@@ -29,24 +29,23 @@ source "amazon-ebs" "ubuntu-server-east" {
 }
 
 build {
-
-
-  sources = [
-    "source.amazon-ebs.ubuntu-server-east"
-  ]
-
-  ## HashiCups
-  # Add startup script that will run hashicups on instance boot
-  provisioner "file" {
-    source      = "setup-deps-pathtopacker.sh"
-    destination = "/tmp/setup-deps-pathtopacker.sh"
+  hcp_packer_registry {
+    bucket_name   = "hashicups-frontend-ubuntu"
+    description   = "HCP Packer Demo"
+    bucket_labels = var.aws_tags
+    build_labels = {
+      "build-time"   = timestamp(),
+      "build-source" = basename(path.cwd)
+    }
   }
-
-  # Move temp files to actual destination
-  # Must use this method because their destinations are protected 
+  sources = ["source.amazon-ebs.ubuntu-server-east"]
   provisioner "shell" {
     inline = [
-      "sudo cp /tmp/setup-deps-pathtopacker.sh /var/lib/cloud/scripts/per-boot/setup-deps-pathtopacker.sh",
+      "sudo apt install nginx -y",
+      "sudo systemctl enable nginx",
+      "sudo systemctl start nginx"
+
     ]
   }
+
 }
