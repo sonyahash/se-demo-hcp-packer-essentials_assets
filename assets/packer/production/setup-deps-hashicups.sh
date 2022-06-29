@@ -13,7 +13,7 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 
 # Get HashiCups config
-git clone https://github.com/hashicorp-demoapp/hashicups-setups
+git clone https://github.com/patriciarojasp/hashicups-setups
 cd hashicups-setups/docker-compose-deployment
 git checkout server
 
